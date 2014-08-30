@@ -8,7 +8,7 @@ arch=(any)
 url=""
 license=('AGPL')
 groups=()
-depends=('python-ansi2html' 'php' 'php-gd' 'qrencode' 'python2-pygments')
+depends=('python-ansi2html' 'php' 'php-gd' 'qrencode' 'python2-pygments' 'perl-text-markdown' 'python-setuptools')
 optdepends=(
   'mysql: mysql database'
   'postgresql: postgresql database'
@@ -44,7 +44,11 @@ package() {
   done
 
   install -d ${pkgdir}/usr/share/doc/$_pkgname/examples
-  install -m 644 ${srcdir}/nginx.conf.example  ${pkgdir}/usr/share/doc/$_pkgname/examples
+
+  examples=(apache nginx)
+  for example in ${examples[@]}; do
+    install -m 644 ${srcdir}/${example}.conf.example ${pkgdir}/usr/share/doc/$_pkgname/examples/
+  done
 }
 
 pkgver() {
