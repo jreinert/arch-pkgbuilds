@@ -1,0 +1,54 @@
+# Maintainer: Joakim Reinert <mail (at) jreinert [dot] com>
+_pkgname=filebin
+pkgname=${_pkgname}-git
+pkgver=1409408546
+pkgrel=1
+pkgdesc=""
+arch=(any)
+url=""
+license=('AGPL')
+groups=()
+depends=('python-ansi2html' 'php' 'php-gd' 'qrencode' 'python2-pygments')
+optdepends=(
+  'mysql: mysql database'
+  'postgresql: postgresql database'
+  'php-pgsql: php postgresql support'
+  'php-fpm: if you use nginx as webserver'
+)
+makedepends=('git')
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+install=${pkgname}.install
+source=('git+git://git.server-speed.net/users/flo/filebin' 'apache.conf.example' 'nginx.conf.example')
+noextract=()
+sha512sums=(
+  'SKIP'
+  '45dbd9f5c36fa134516b2b71100c43d1804bb96309056684aa7b4a12adb80e1b5bef19d7b9563e2f9a39131727f6897a23b0c0bde2f7ded14c22bb21b050e694'
+  'c8590229c603dbdd6f197189b2d81d36ae83357557b089d0a4e37463cb54cd11801f7b46c9904e3a06cd9feeb3cf925a989a26ad75fb2b8c86a0645576cd51de'
+)
+
+package() {
+  cd "$srcdir"
+
+  install -d  ${pkgdir}/usr/share/webapps/
+  cp -a $_pkgname ${pkgdir}/usr/share/webapps/$_pkgname
+  chown -R http:http ${pkgdir}/usr/share/webapps/$_pkgname
+
+  docs=(COPYING INSTALL NEWS README license.txt)
+  for doc in ${docs[@]}; do
+    install -Dm0644 $_pkgname/$doc ${pkgdir}/usr/share/doc/$_pkgname/$doc
+    rm -f ${pkgdir}/usr/share/webapps/$_pkgname/$doc
+  done
+
+  install -d ${pkgdir}/usr/share/doc/$_pkgname/examples
+  install -m 644 ${srcdir}/nginx.conf.example  ${pkgdir}/usr/share/doc/$_pkgname/examples
+}
+
+pkgver() {
+  cd "$_pkgname"
+  git log -1 --format=%ct
+}
+# vim:set ts=2 sw=2 et:

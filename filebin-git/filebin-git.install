@@ -1,0 +1,7 @@
+post_install() {
+  echo "
+Next steps:
+  1. Set up a database
+  2. Follow the instructions in /usr/share/doc/filebin/INSTALL to set up filebin
+  3. Copy an example nginx/apache config from /usr/share/doc/filebin/examples and edit to fit your needs"
+}

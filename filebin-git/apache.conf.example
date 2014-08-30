@@ -1,0 +1,16 @@
+<IfModule mod_alias.c>
+Alias /filebin /usr/share/webapps/filebin/
+</IfModule>
+<Directory /usr/share/webapps/filebin/>
+   Options Indexes FollowSymLinks
+   Order allow,deny
+   allow from all
+   php_admin_value open_basedir "/srv/http/:/home/:/tmp/:/usr/share/pear/:/usr/share/webapps/"
+</Directory>
+<VirtualHost *:80>
+    ServerAdmin foo@myfilebin.com
+    DocumentRoot /usr/share/webapps/filebin
+    ServerName paste.example.org
+    ErrorLog logs/filebin.info-error_log
+    CustomLog logs/filebin.info-access_log common
+</VirtualHost>
