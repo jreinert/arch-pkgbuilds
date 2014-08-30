@@ -35,6 +35,7 @@ package() {
 
   install -d  ${pkgdir}/usr/share/webapps/
   cp -a $_pkgname ${pkgdir}/usr/share/webapps/$_pkgname
+  rm -rf ${pkgdir}/usr/share/webapps/$_pkgname/.git
   chown -R http:http ${pkgdir}/usr/share/webapps/$_pkgname
 
   docs=(COPYING INSTALL NEWS README license.txt)
